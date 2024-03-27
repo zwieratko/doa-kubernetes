@@ -1,0 +1,53 @@
+apiVersion: v1
+entries:
+  hello-world:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-03-14T13:23:01.649149963+01:00"
+    description: A Helm chart for Kubernetes
+    digest: 185a94dbbc1738761ac793b5c6ed5973ae583a5aa567abf280bd7d41365f9d94
+    name: hello-world
+    type: application
+    urls:
+    - hello-world-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-03-14T13:23:01.648575735+01:00"
+    description: A Helm chart for Kubernetes
+    digest: 30ff1984f55fc6dafb158ec847b3839cab0e86f4cdf34998f0bc5b68f439bf0f
+    name: hello-world
+    type: application
+    urls:
+    - hello-world-0.1.0.tgz
+    version: 0.1.0
+  rambo:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-03-14T13:23:01.64935514+01:00"
+    description: 'RAMBO: First Blood Chart '
+    digest: 0220d066b880b13c0d82bd3795eb707f8985b55ff37589deb7ca333ca9cca3be
+    name: rambo
+    type: application
+    urls:
+    - rambo-2024.3.1.tgz
+    version: 2024.3.1
+  wp1:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2024-03-14T13:23:01.664737368+01:00"
+    dependencies:
+    - name: wordpress
+      repository: https://charts.bitnami.com/bitnami
+      version: 20.1.1
+    - name: adminer
+      repository: https://charts.ectobit.com/
+      version: 0.1.8
+    description: A Helm chart for Kubernetes
+    digest: 145161ae9a461c98bc25384b2a1fb85460b0f70986a3773cc072e2a7f63c1e3e
+    name: wp1
+    type: application
+    urls:
+    - wp1-0.1.0.tgz
+    version: 0.1.0
+generated: "2024-03-14T13:23:01.64785664+01:00"

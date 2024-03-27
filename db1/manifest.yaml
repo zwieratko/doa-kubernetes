@@ -1,0 +1,128 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: db
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-settings
+  # namespace: application
+data:
+  TZ: Europe/Bratislava
+  # units: metric
+  # update_interval: "20"
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-credentials
+  # namespace: application
+data:
+  MYSQL_ROOT_PASSWORD: dG9wLnNlY3JldA==
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: db
+  name: db
+  # namespace: application
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - image: mariadb:latest
+        name: mariadb
+        envFrom:
+        - configMapRef:
+            name: app-settings
+        - secretRef:
+            name: app-credentials
+            # env:
+            # - name: TZ
+            #   value: Europe/Bratislava
+            # - name: MYSQL_ROOT_PASSWORD
+            #   value: top.secret
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: db
+  name: db-svc
+  # namespace: application
+spec:
+  ports:
+  - name: www
+    port: 3306
+    protocol: TCP
+    # targetPort: 80
+    # nodePort: 30000
+  selector:
+    app: db
+    # type: NodePort
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: adminer
+  name: adminer
+  # namespace: application
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adminer
+  template:
+    metadata:
+      labels:
+        app: adminer
+    spec:
+      containers:
+      - image: adminer
+        name: adminer
+        # envFrom:
+        # - configMapRef:
+        #     name: app-config
+        # - secretRef:
+        #     name: secrets
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: adminer
+  name: adminer-svc
+  # namespace: application
+spec:
+  ports:
+  - name: www
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+    nodePort: 31500
+  selector:
+    app: adminer
+  type: NodePort
+

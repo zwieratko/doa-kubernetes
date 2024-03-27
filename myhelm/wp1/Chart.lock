@@ -1,0 +1,9 @@
+dependencies:
+- name: wordpress
+  repository: https://charts.bitnami.com/bitnami
+  version: 20.1.1
+- name: adminer
+  repository: https://charts.ectobit.com/
+  version: 0.1.8
+digest: sha256:0cba6628a12918908b8b7a3e8ab3671cc338f9826e42e77396ad52c599c0d0aa
+generated: "2024-03-14T13:10:49.25722666+01:00"

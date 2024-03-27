@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: db
+  name: wp-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: db
+        tier: backend
+        env: prod
+        customer: tuke
+    spec:
+      containers:
+      - image: mariadb
+        name: mariadb
+        resources: {}
+        env:
+        - name: MARIADB_ROOT_PASSWORD
+          value: top.secret
+        - name: MYSQL_DATABASE
+          value: wordpress
+        - name: MYSQL_USER
+          value: wpuser
+        - name: MYSQL_PASSWORD
+          value: end321
+        - name: TZ
+          value: Europe/Bratislava
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: db
+  name: wp-db
+spec:
+  ports:
+  - port: 3306
+    protocol: TCP
+    targetPort: 3306
+  selector:
+    app: db
+status:
+  loadBalancer: {}

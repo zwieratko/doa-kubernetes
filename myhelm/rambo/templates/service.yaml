@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: "{{ .Release.Name }}-{{ .Chart.Name }}-{{ .Values.part }}"
+  name: "{{ .Release.Name }}-{{ .Chart.Name }}-{{ .Values.part }}"
+  # namespace: application
+spec:
+  ports:
+    - name: www
+      port: {{ .Values.service.port }}
+      protocol: TCP
+      targetPort: 8000
+      # nodePort: 30000
+  selector:
+    app: "{{ .Release.Name }}-{{ .Chart.Name }}-{{ .Values.part }}"
+  type: ClusterIP

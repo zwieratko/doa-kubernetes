@@ -1,0 +1,132 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: rambo
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: rambo
+  name: rambo-mu
+  # namespace: rambo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rambo
+  template:
+    metadata:
+      labels:
+        app: rambo
+        country: de
+        env: test
+        city: mu
+    spec:
+      containers:
+      - image: bletvaska/rambo:1
+        name: rambo
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: rambo
+  name: rambo-ke
+  # namespace: rambo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rambo
+  template:
+    metadata:
+      labels:
+        app: rambo
+        country: sk
+        env: prod
+        city: ke
+        region: east
+    spec:
+      containers:
+      - image: bletvaska/rambo:2
+        name: rambo
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: rambo
+  name: rambo-po
+  # namespace: rambo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rambo
+  template:
+    metadata:
+      labels:
+        app: rambo
+        country: sk
+        env: prod
+        city: po
+        region: east
+    spec:
+      containers:
+      - image: bletvaska/rambo:3
+        name: rambo
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: rambo
+  name: rambo-ba
+  # namespace: rambo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rambo
+  template:
+    metadata:
+      labels:
+        app: rambo
+        country: sk
+        env: prod
+        city: ba
+        region: west
+    spec:
+      containers:
+      - image: bletvaska/rambo:4
+        name: rambo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: rambo
+  name: rambo-svc
+  # namespace: rambo
+spec:
+  ports:
+  - name: www
+    port: 8000
+    protocol: TCP
+    targetPort: 80
+    nodePort: 30000
+  selector:
+    app: rambo
+  type: NodePort
+

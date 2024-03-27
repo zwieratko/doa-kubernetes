@@ -1,0 +1,12 @@
+wordpressUsername: jano
+wordpressPassword: kolobezka
+
+persistence:
+  size: 100Mi
+
+mariadb:
+  auth:
+    rootPassword: secret
+primary:
+  persistence:
+    size: 200Mi

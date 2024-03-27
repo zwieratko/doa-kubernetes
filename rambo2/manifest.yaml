@@ -1,0 +1,124 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: rambo2
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: rambo1
+  name: rambo-mu
+  # namespace: rambo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rambo1
+  template:
+    metadata:
+      labels:
+        app: rambo1
+        country: de
+        env: test
+        city: mu
+    spec:
+      containers:
+      - image: bletvaska/rambo:1
+        name: rambo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: rambo1
+  name: rambo1-svc
+  # namespace: rambo
+spec:
+  ports:
+  - name: www
+    port: 8000
+    protocol: TCP
+    targetPort: 80
+    # nodePort: 30001
+  selector:
+    app: rambo1
+    # type: NodePort
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: rambo2
+  name: rambo-ke
+  # namespace: rambo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rambo2
+  template:
+    metadata:
+      labels:
+        app: rambo2
+        country: de
+        env: test
+        city: mu
+    spec:
+      containers:
+      - image: bletvaska/rambo:2
+        name: rambo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: rambo2
+  name: rambo2-svc
+  # namespace: rambo
+spec:
+  ports:
+  - name: www
+    port: 8000
+    protocol: TCP
+    targetPort: 80
+    # nodePort: 30002
+  selector:
+    app: rambo2
+    # type: NodePort
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rambo
+spec:
+  rules:
+  - host: www.rambo.sk
+    http:
+      paths:
+      - backend:
+          service:
+            name: rambo1-svc
+            port:
+              number: 8000
+        path: /1
+        pathType: Exact
+      - backend:
+          service:
+            name: rambo2-svc
+            port:
+              number: 8000
+        path: /2
+        pathType: Exact
+status:
+  loadBalancer: {}
